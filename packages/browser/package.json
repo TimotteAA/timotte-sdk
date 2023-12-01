@@ -1,0 +1,16 @@
+{
+    "name": "@timotte-sdk/browser",
+    "version": "0.0.0",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@timotte-sdk/core": "workspace:*",
+        "@timotte-sdk/utils": "workspace:*"
+    },
+    "devDependencies": {
+        "@timotte/eslint-config": "workspace:*",
+        "@timotte/ts-config": "workspace:*"
+    }
+}

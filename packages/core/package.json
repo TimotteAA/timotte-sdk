@@ -11,5 +11,13 @@
     "devDependencies": {
         "@timotte/eslint-config": "workspace:*",
         "@timotte/ts-config": "workspace:*"
+    },
+    "main": "./dist/index.js",
+    "module": "./dist/esm/index.js",
+    "types": "./dist/types/index.d.ts",
+    "browser": "./dist/index.umd.js",
+    "type": "module",
+    "scripts": {
+        "dev": "rimraf dist && rollup --config rollup.config.js -w"
     }
 }

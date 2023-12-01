@@ -12,7 +12,7 @@ export abstract class Core<O extends ClientOptions> {
 
     public context: ClientContext;
     protected appId: string;
-    protected readonly taskQueue: Array<any>;
+    protected readonly dataQueue: Array<any>;
     protected isReady: boolean = false;
 
     constructor(options: O) {
@@ -21,7 +21,7 @@ export abstract class Core<O extends ClientOptions> {
             console.log('The current environment does not match the client');
             return;
         }
-        this.taskQueue = [];
+        this.dataQueue = [];
         this._options = options;
         // 处理上下文
         this.transOptions();
@@ -31,7 +31,7 @@ export abstract class Core<O extends ClientOptions> {
             this.appId = id;
             // 开始执行上报
             this.isReady = true;
-            this.executeTaskQueue();
+            this.executeUploadData();
         });
     }
 
@@ -56,7 +56,7 @@ export abstract class Core<O extends ClientOptions> {
                 if (!clientDatas) return;
                 if (!enabled) return;
                 if (!this.isReady) {
-                    this.taskQueue.push(clientDatas);
+                    this.dataQueue.push(clientDatas);
                 }
                 this.nextTick(this.report, this, uploadUrl, { appId: this.appId, ...clientDatas });
             };
@@ -65,7 +65,14 @@ export abstract class Core<O extends ClientOptions> {
         }
     }
 
-    executeTaskQueue() {}
+    executeUploadData() {
+        if (this.isReady && this.isInRightEnv) {
+            while (this.dataQueue.length) {
+                const data = this.dataQueue.shift();
+                return this.nextTick(this.report, this, { appId: this.appId, ...data });
+            }
+        }
+    }
 
     get options() {
         return this._options;
@@ -80,17 +87,17 @@ export abstract class Core<O extends ClientOptions> {
     abstract transform(data: any): any;
 
     /**
-     * 抽象方法，nextTick
-     */
-    abstract nextTick(cb: Function, ctx: Object, ...args: any[]): void;
-
-    /**
      * 上报方式
      * @param {string} url - 接口地址
      * @param {} type - 请求方式（枚举类型，各端有差异）
      * @param {IAnyObject} datas - 上传数据
      */
     abstract report(url: string, datas: any, type?: any): void;
+
+    /**
+     * 异步上报管理器
+     */
+    abstract nextTick(cb: Function, ctx: Object, ...args: any[]): void;
 
     private transOptions() {
         const { dsn, app, debug = false, enabled = true } = this.options;

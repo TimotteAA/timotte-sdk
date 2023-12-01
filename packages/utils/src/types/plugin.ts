@@ -9,8 +9,7 @@ export interface BasePluginType<CollectData = any> {
     /** 插件核心逻辑
      * 比如监听error事件
      * 入参notify方法，第一个参数已经绑定了插件的名称
-     * 插件自身只需要关注需要上报的数据
-     * 其中会执行插件所属各个端的上报逻辑
+     * 插件自身只需要关注需要上报的数据，而具体的上报将由各个端自己去实现
      */
     monitor: (notify: (data: CollectData) => void) => void;
     // 处理插件数据的转换
