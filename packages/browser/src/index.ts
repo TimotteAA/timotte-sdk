@@ -17,7 +17,7 @@ export class BrowserClient extends Core<ClientOptions> {
     }
 
     /**
-     * 初始沟通一下server
+     * 初始沟通一下server，我好啦
      */
     async initApp(): Promise<string> {
         const { app, initUrl } = this.context;
@@ -32,6 +32,11 @@ export class BrowserClient extends Core<ClientOptions> {
         return id;
     }
 
+    /**
+     * 给插件数据加上额外的浏览器信息
+     * @param data
+     * @returns
+     */
     transform(data: any) {
         const browserData = {
             // 语言
@@ -55,9 +60,13 @@ export class BrowserClient extends Core<ClientOptions> {
         return this.get(url, datas);
     }
 
-    nextTick(cb: Function, ctx: Object, ...args: any[]): void {
-        throw new Error('Method not implemented.');
-    }
+    /**
+     *
+     * @param cb 其实是this.report
+     * @param ctx 插件实例
+     * @param args 包含上传url，上报数据
+     */
+    nextTick(cb: Function, ctx: Object, ...args: any[]): void {}
 
     async get(url: string, datas: any) {
         return { id: '' };

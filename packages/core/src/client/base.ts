@@ -65,6 +65,10 @@ export abstract class Core<O extends ClientOptions> {
         }
     }
 
+    /**
+     * 处理未准备好时存起来的所有数据
+     * @returns
+     */
     executeUploadData() {
         if (this.isReady && this.isInRightEnv) {
             while (this.dataQueue.length) {
