@@ -1,0 +1,4 @@
+{
+    "extends": "@timotte/ts-config/base.json",
+    "include": ["src/**/*", "rollup.config.js"]
+}

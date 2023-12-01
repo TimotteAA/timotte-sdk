@@ -1,0 +1,14 @@
+{
+    "name": "@timotte/ts-config",
+    "version": "0.0.0",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@timotte/eslint-config": "workspace:*"
+    },
+    "files": [
+        "base.json"
+    ]
+}
