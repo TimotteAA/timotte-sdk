@@ -15,7 +15,10 @@
     },
     "main": "./dist/index.js",
     "module": "./dist/esm/index.js",
-    "types": "./dist/types/index.d.ts",
+    "types": "./dist/esm/types/index.d.ts",
     "browser": "./dist/index.umd.js",
-    "type": "module"
+    "type": "module",
+    "peerDependencies": {
+        "dayjs": "^1.11.10"
+    }
 }

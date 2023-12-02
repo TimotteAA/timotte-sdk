@@ -1,19 +1,31 @@
 import { Core } from '@timotte-sdk/core';
-import { ClientOptions, getTime } from '@timotte-sdk/utils';
+import { RecordAny, UnknownFunc, getTime } from '@timotte-sdk/utils';
 import { v4 as uuidv4 } from 'uuid';
 
-export interface BrowserClientOptions extends ClientOptions {}
+import { ReportDeployment, ReportType } from './constants';
+import * as pluginMaps from './plugins';
+import { BrowserClientOptions } from './types';
+import { TaskQueue, get, post, sendBeacon, sendByImg } from './utils';
+import { nextTick } from './utils/nextTick';
 
-export class BrowserClient extends Core<ClientOptions> {
+/**
+ * 浏览器端sdk
+ */
+export class BrowserClient extends Core<BrowserClientOptions> {
     private sessionId: string;
+    private reportType: ReportType;
+    private reportDeployment: ReportDeployment;
+    private taskQueue = new TaskQueue(5);
 
     constructor(options: BrowserClientOptions) {
         super(options);
         this.sessionId = uuidv4();
+        this.reportType = options.reportType ?? ReportType.Beacon;
+        this.reportDeployment = options.reportDeployment ?? ReportDeployment.TICK;
     }
 
     isInRightEnv(): boolean {
-        return 'windon' in global;
+        return 'window' in global;
     }
 
     /**
@@ -28,7 +40,7 @@ export class BrowserClient extends Core<ClientOptions> {
             // sessionId
             sessionId: this.sessionId,
         };
-        const { id } = await this.get(initUrl, data);
+        const { id } = (await post(initUrl, data)) as any;
         return id;
     }
 
@@ -56,8 +68,26 @@ export class BrowserClient extends Core<ClientOptions> {
         return browserData;
     }
 
-    report(url: string, datas: any, type?: any): void {
-        return this.get(url, datas);
+    // 上报方式
+    // 1. sendBeacon
+    // 2. img Send
+    // 3. xhr post or get
+
+    report(url: string, datas: RecordAny) {
+        switch (this.reportType) {
+            case ReportType.Beacon: {
+                return sendBeacon(url, datas);
+            }
+            case ReportType.GET: {
+                return get(url, datas);
+            }
+            case ReportType.POST: {
+                return post(url, datas);
+            }
+            default: {
+                return sendByImg(url, datas);
+            }
+        }
     }
 
     /**
@@ -66,9 +96,34 @@ export class BrowserClient extends Core<ClientOptions> {
      * @param ctx 插件实例
      * @param args 包含上传url，上报数据
      */
-    nextTick(cb: Function, ctx: Object, ...args: any[]): void {}
+    nextTick(cb: UnknownFunc, ctx: RecordAny, ...args: any[]): void {
+        const [url, clientData] = args;
 
-    async get(url: string, datas: any) {
-        return { id: '' };
+        switch (this.reportDeployment) {
+            case ReportDeployment.TICK: {
+                nextTick(() => cb.call(ctx, url, clientData));
+                return;
+            }
+            case ReportDeployment.QUEUE: {
+                this.taskQueue.addTask(() => cb.call(ctx, url, clientData));
+                return;
+            }
+        }
     }
 }
+
+// 性能收集：fp、lcp、fcp、onload
+// 资源加载时间、接口时间
+
+// js错误、xhr类似的异步错误
+
+// 用户行为：pv、uv
+
+const createBrowserClient = (options: BrowserClientOptions) => {
+    const client = new BrowserClient(options);
+    const plugins = Array.from(Object.values(pluginMaps)).map((Plugin) => new Plugin());
+    client.use(plugins);
+    return client;
+};
+export default createBrowserClient;
+export * from './plugins';

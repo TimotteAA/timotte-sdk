@@ -25,13 +25,13 @@ export class Subscriber {
      * @param notify
      * @returns
      */
-    notify(pluginName: string, notify: (data: any) => void) {
+    notify(pluginName: string, data: any) {
         if (!this.map.has(pluginName)) return;
         const fns = this.map.get(pluginName);
         if (Array.isArray(fns) && fns.length) {
-            fns.forEach((fn) => {
-                fn.call(this, notify);
-            });
+            fns.forEach(fn => {
+                fn(data)
+            })
         }
     }
 }

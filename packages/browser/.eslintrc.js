@@ -1,4 +1,8 @@
 module.exports = {
     root: true,
-    extends: ['@timotte/eslint-config/base'],
+    parserOptions: {
+        project: './tsconfig.json',
+        tsconfigRootDir: __dirname,
+    },
+    extends: ['@timotte/eslint-config/base-ts.js'],
 };

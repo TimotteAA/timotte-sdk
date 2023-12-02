@@ -18,7 +18,7 @@ export abstract class Core<O extends ClientOptions> {
     constructor(options: O) {
         // 判断插件环境
         if (!this.isInRightEnv()) {
-            console.log('The current environment does not match the client');
+            console.error('The current environment does not match the client configuration!');
             return;
         }
         this.dataQueue = [];
@@ -40,6 +40,7 @@ export abstract class Core<O extends ClientOptions> {
         // 统管插件的事件总线
         const subscriber = new Subscriber();
         for (const plugin of plugins) {
+            // 绑定pluginName传入插件的monitor
             plugin.monitor.call(this, subscriber.notify.bind(subscriber, plugin.name));
 
             /**
@@ -58,7 +59,7 @@ export abstract class Core<O extends ClientOptions> {
                 if (!this.isReady) {
                     this.dataQueue.push(clientDatas);
                 }
-                this.nextTick(this.report, this, uploadUrl, { appId: this.appId, ...clientDatas });
+                 this.nextTick(this.report, this, uploadUrl, { appId: this.appId, ...clientDatas });
             };
 
             subscriber.add(plugin.name, callback);

@@ -7,7 +7,7 @@ import commonjs from '@rollup/plugin-commonjs';
 
 export default [
     {
-        external: ['dayjs'],
+        external: ['dayjs', 'uuid'],
         input: 'src/index.ts',
         output: {
             dir: './dist',
@@ -16,7 +16,7 @@ export default [
         },
     },
     {
-        external: ['dayjs'],
+        external: ['dayjs', 'uuid'],
         input: 'src/index.ts',
         output: {
             dir: `./dist/esm`,
@@ -25,7 +25,7 @@ export default [
         },
     },
     {
-        external: ['dayjs'],
+        external: ['dayjs', 'uuid'],
         input: 'src/index.ts',
         output: {
             file: `./dist/index.umd.js`,
@@ -40,6 +40,7 @@ export default [
                 'dayjs/plugin/localeData': 'localeData',
                 'dayjs/plugin/timezone': 'timezone',
                 'dayjs/plugin/utc': 'utc',
+                'uuid': "uuid"
             },
         },
     },
@@ -51,7 +52,7 @@ export default [
         typescript({
             compilerOptions: {
                 declaration: true,
-                declarationDir: `./dist/types`,
+                "outDir": "./dist/esm/types",
             },
         }),
         commonjs(),

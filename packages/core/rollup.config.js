@@ -39,7 +39,8 @@ export default [
         typescript({
             compilerOptions: {
                 declaration: true,
-                declarationDir: `./dist/types`,
+                // declarationDir: `./dist/types`,
+                "outDir": "./dist/esm/types",
             },
         }),
     ],
