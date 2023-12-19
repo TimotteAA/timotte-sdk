@@ -1,5 +1,5 @@
 import { BasePluginType, ReportData, generateUUid, getTime } from '@timotte-sdk/utils';
-import { EventTypes } from '@timotte-sdk/utils/dist/esm/types/constants';
+import { EventTypes } from '@timotte-sdk/utils';
 
 import { PerformanceEventData } from '../../types';
 

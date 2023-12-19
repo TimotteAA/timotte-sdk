@@ -40,8 +40,10 @@ export default [
                 'dayjs/plugin/localeData': 'localeData',
                 'dayjs/plugin/timezone': 'timezone',
                 'dayjs/plugin/utc': 'utc',
-                'uuid': "uuid"
+                uuid: 'uuid',
             },
+            // preserveModules: true,
+            // preserveModulesRoot: 'src',
         },
     },
 ].map((entry) => ({
@@ -52,7 +54,7 @@ export default [
         typescript({
             compilerOptions: {
                 declaration: true,
-                "outDir": "./dist/esm/types",
+                outDir: './dist/esm/types',
             },
         }),
         commonjs(),

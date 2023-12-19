@@ -11,23 +11,28 @@ export default [
             dir: './dist',
             sourcemap: true,
             format: 'cjs',
+            // external: ['@timote-sdk/utils'],
         },
     },
     {
         input: 'src/index.ts',
         output: {
+            // dir: './dist/esm',
             dir: './dist/esm',
             sourcemap: true,
             format: 'esm',
+            // external: ['@timote-sdk/utils'],
         },
     },
     {
         input: 'src/index.ts',
         output: {
             file: './dist/index.umd.js',
+            // dir: './dist',
             sourcemap: true,
             format: 'umd',
             name: `TIMOTTE_${pkg.name.split('/')[1].toLocaleUpperCase()}`,
+            // external: ['@timote-sdk/utils'],
         },
     },
 ].map((entry) => ({
@@ -39,8 +44,7 @@ export default [
         typescript({
             compilerOptions: {
                 declaration: true,
-                // declarationDir: `./dist/types`,
-                "outDir": "./dist/esm/types",
+                outDir: './dist/esm/types',
             },
         }),
     ],

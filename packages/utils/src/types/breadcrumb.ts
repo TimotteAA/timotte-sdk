@@ -12,3 +12,14 @@ export interface BreadcrumbData {
     level?: BreadcrumbLevel;
     time?: string;
 }
+
+/**
+ * 单个行为数据
+ */
+export interface BreadcrumbPushData {
+    eventId: string;
+    type: BreadcrumbTypes;
+    message: string;
+    level?: BreadcrumbLevel;
+    time?: number;
+}

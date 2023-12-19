@@ -1,5 +1,6 @@
-import { Core } from '@timotte-sdk/core';
-import { RecordAny, UnknownFunc, getTime } from '@timotte-sdk/utils';
+import { BaseBreadcrumb, Core } from '@timotte-sdk/core';
+import { getTime } from '@timotte-sdk/utils';
+import type { RecordAny, UnknownFunc } from '@timotte-sdk/utils';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ReportDeployment, ReportType } from './constants';
@@ -16,12 +17,14 @@ export class BrowserClient extends Core<BrowserClientOptions> {
     private reportType: ReportType;
     private reportDeployment: ReportDeployment;
     private taskQueue = new TaskQueue(5);
+    public breadcrumb: BaseBreadcrumb<BrowserClientOptions>;
 
     constructor(options: BrowserClientOptions) {
         super(options);
         this.sessionId = uuidv4();
         this.reportType = options.reportType ?? ReportType.Beacon;
         this.reportDeployment = options.reportDeployment ?? ReportDeployment.TICK;
+        this.breadcrumb = new BaseBreadcrumb(options);
     }
 
     isInRightEnv(): boolean {

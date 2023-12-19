@@ -31,6 +31,7 @@ export abstract class Core<O extends ClientOptions> {
             this.appId = id;
             // 开始执行上报
             this.isReady = true;
+            // 上报之前存起来的数据
             this.executeUploadData();
         });
     }
@@ -59,7 +60,8 @@ export abstract class Core<O extends ClientOptions> {
                 if (!this.isReady) {
                     this.dataQueue.push(clientDatas);
                 }
-                 this.nextTick(this.report, this, uploadUrl, { appId: this.appId, ...clientDatas });
+                // 利用nextTick上报数据
+                this.nextTick(this.report, this, uploadUrl, { appId: this.appId, ...clientDatas });
             };
 
             subscriber.add(plugin.name, callback);
