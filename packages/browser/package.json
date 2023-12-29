@@ -12,5 +12,8 @@
     "devDependencies": {
         "@timotte/eslint-config": "workspace:*",
         "@timotte/ts-config": "workspace:*"
+    },
+    "scripts": {
+        "dev": "rimraf dist && rollup --config rollup.config.js -w"
     }
 }

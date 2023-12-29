@@ -4,3 +4,4 @@ export * from './url';
 export * from './subscriber';
 export * from './uuid';
 export * from './constants';
+export * from './request';

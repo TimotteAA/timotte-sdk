@@ -1,12 +1,12 @@
 import { BaseBreadcrumb, Core } from '@timotte-sdk/core';
-import { getTime } from '@timotte-sdk/utils';
+import { getTime, ReportType, get, post, sendBeacon, sendByImg } from '@timotte-sdk/utils';
 import type { RecordAny, UnknownFunc } from '@timotte-sdk/utils';
 import { v4 as uuidv4 } from 'uuid';
 
-import { ReportDeployment, ReportType } from './constants';
+import { ReportDeployment } from './constants';
 import * as pluginMaps from './plugins';
 import { BrowserClientOptions } from './types';
-import { TaskQueue, get, post, sendBeacon, sendByImg } from './utils';
+import { TaskQueue } from './utils';
 import { nextTick } from './utils/nextTick';
 
 /**

@@ -1,6 +1,6 @@
-import { RecordAny } from '@timotte-sdk/utils';
+import { RecordAny } from './types';
 
-import { HttpMethod } from '../constants';
+import { HttpMethod } from './constants';
 
 export const sendBeacon = (url: string, data: RecordAny) => {
     if (typeof window === 'undefined') {
