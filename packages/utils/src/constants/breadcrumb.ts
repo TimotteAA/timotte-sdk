@@ -4,7 +4,7 @@
 export enum BrowserBreadcrumbTypes {
     ROUTE = 'route',
     CLICK = 'ui.click',
-    CONSOLE = 'console',
+    BEHAVIOR = 'behavior',
     XHR = 'xhr',
     FETCH = 'fetch',
     UNHANDLEDREJECTION = 'unhandledrejection',

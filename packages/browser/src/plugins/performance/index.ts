@@ -27,7 +27,7 @@ function performancePlugin(options: PerformancePluginOptions = {}): BasePluginTy
             if (!off.includes(PerformaceMetric.VITALS)) {
                 getWebVitals().then((vitals) => {
                     notify({
-                        subType: PerformaceMetric.VITALS,
+                        eventType: PerformaceMetric.VITALS,
                         data: vitals,
                     });
                 });
@@ -38,14 +38,14 @@ function performancePlugin(options: PerformancePluginOptions = {}): BasePluginTy
                     // 基础参数
                     if (!off.includes(PerformaceMetric.BASIC)) {
                         notify({
-                            subType: PerformaceMetric.BASIC,
+                            eventType: PerformaceMetric.BASIC,
                             data: getBasicMetric(),
                         });
                     }
                     // 资源耗时
                     if (!off.includes(PerformaceMetric.RESOURCE)) {
                         notify({
-                            subType: PerformaceMetric.RESOURCE,
+                            eventType: PerformaceMetric.RESOURCE,
                             data: getResources(),
                         });
                     }
@@ -54,7 +54,7 @@ function performancePlugin(options: PerformancePluginOptions = {}): BasePluginTy
                         fpsTool.run();
                         setTimeout(() => {
                             notify({
-                                subType: PerformaceMetric.FPS,
+                                eventType: PerformaceMetric.FPS,
                                 data: fpsTool.get(),
                             });
                             // 上报后销毁监听

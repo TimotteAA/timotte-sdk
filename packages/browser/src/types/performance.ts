@@ -15,7 +15,7 @@ export interface PerformancePluginOptions {
 }
 
 export interface BasePerformanceNotifyData<T extends any> {
-    subType: string;
+    eventType: string;
     data: T;
 }
 

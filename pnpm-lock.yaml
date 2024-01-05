@@ -187,6 +187,24 @@ importers:
         specifier: workspace:*
         version: link:../eslint-config
 
+  packages/user-behavior:
+    dependencies:
+      '@timotte-sdk/browser':
+        specifier: workspace:*
+        version: link:../browser
+      '@timotte-sdk/utils':
+        specifier: workspace:*
+        version: link:../utils
+      '@timotte/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@timotte/ts-config':
+        specifier: workspace:*
+        version: link:../ts-config
+      dayjs:
+        specifier: ^1.11.10
+        version: 1.11.10
+
   packages/utils:
     dependencies:
       '@timotte/eslint-config':

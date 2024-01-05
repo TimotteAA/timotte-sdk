@@ -5,4 +5,5 @@ export * from './subscriber';
 export * from './uuid';
 export * from './constants';
 export * from './request';
-export * from "./helper";
+export * from './helper';
+export * from './store';

@@ -17,4 +17,5 @@ export enum EventTypes {
      * 页面挂壁了
      */
     PAGE_CRASH = 'page_crash',
+    USER_BEHAVIOR = 'user_behavior',
 }

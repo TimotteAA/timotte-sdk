@@ -10,12 +10,12 @@ import {
 import { BrowserClient } from '../..';
 
 type PromiseErrorPluginNotifyData = {
-    category: EventTypes.PROMISE_ERROR;
+    eventType: EventTypes.PROMISE_ERROR;
     data: PromiseRejectionEvent;
 };
 
 type PromiseErrorTransformData = {
-    subType: EventTypes.PROMISE_ERROR;
+    eventType: EventTypes.PROMISE_ERROR;
     data: {
         message: string;
     };
@@ -27,7 +27,7 @@ class PromiseErrorPlugin implements BasePluginType {
         window.addEventListener('unhandledrejection', (e) => {
             e.preventDefault();
             notify({
-                category: EventTypes.PROMISE_ERROR,
+                eventType: EventTypes.PROMISE_ERROR,
                 data: e,
             });
         });
@@ -61,7 +61,7 @@ class PromiseErrorPlugin implements BasePluginType {
             time,
             type: EventTypes.PROMISE_ERROR,
             data: {
-                subType: EventTypes.PROMISE_ERROR,
+                eventType: EventTypes.PROMISE_ERROR,
                 data: {
                     message,
                 },

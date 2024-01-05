@@ -1,0 +1,25 @@
+{
+    "name": "@timotte-sdk/user-behavior",
+    "version": "0.0.0",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@timotte/eslint-config": "workspace:*",
+        "@timotte/ts-config": "workspace:*",
+        "@timotte-sdk/utils": "workspace:*",
+        "@timotte-sdk/browser": "workspace:*"
+    },
+    "scripts": {
+        "dev": "rimraf dist && rollup --config rollup.config.js -w"
+    },
+    "main": "./dist/index.js",
+    "module": "./dist/esm/index.js",
+    "types": "./dist/esm/types/index.d.ts",
+    "browser": "./dist/index.umd.js",
+    "type": "module",
+    "peerDependencies": {
+        "dayjs": "^1.11.10"
+    }
+}

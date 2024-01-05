@@ -15,7 +15,7 @@ type ResoureceEventData = {
     /**
      * 上报事件分类
      */
-    category: EventTypes;
+    eventType: EventTypes;
     /**
      * 监听到时间的数据
      */
@@ -29,13 +29,13 @@ type ResourceTarget = {
 };
 
 type ResourceTypeError = {
-    subType: BrowserErrorTypes;
+    eventType: BrowserErrorTypes;
     resourceType: string;
     href: string;
 };
 
 type JSCodeError = {
-    subType: BrowserErrorTypes;
+    eventType: BrowserErrorTypes;
     detail: {
         lineno: number;
         message: string;
@@ -48,7 +48,7 @@ class MonitorResourceErrorPlugin implements BasePluginType {
         window.addEventListener('error', (e) => {
             e.preventDefault();
             notify({
-                category: EventTypes.ERROR,
+                eventType: EventTypes.ERROR,
                 data: e,
             });
         });
@@ -56,7 +56,7 @@ class MonitorResourceErrorPlugin implements BasePluginType {
     transform(eventData: ResoureceEventData): ReportData<ResourceTypeError | JSCodeError> {
         const id = generateUUid();
         const time = getTime().format('YYYY-DD-MM HH:mm:ss');
-        const { data, category } = eventData;
+        const { data, eventType } = eventData;
 
         const { localName, src, href } = (data.target as unknown as ResourceTarget) || {};
         if (localName) {
@@ -79,9 +79,9 @@ class MonitorResourceErrorPlugin implements BasePluginType {
                 id,
                 breadcrumb,
                 time,
-                type: category,
+                type: eventType,
                 data: {
-                    subType: BrowserErrorTypes.RESOURCEERROR,
+                    eventType: BrowserErrorTypes.RESOURCEERROR,
                     ...resourceData,
                 } as ResourceTypeError,
             };
@@ -109,10 +109,10 @@ class MonitorResourceErrorPlugin implements BasePluginType {
         return {
             id,
             time,
-            type: category,
+            type: eventType,
             breadcrumb,
             data: {
-                subType: BrowserErrorTypes.CODEERROR,
+                eventType: BrowserErrorTypes.CODEERROR,
                 ...resourceData,
             } as JSCodeError,
         };
