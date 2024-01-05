@@ -29,31 +29,30 @@ export const sendByImg = (url: string, data: RecordAny) => {
 export const xhr = (url: string, data: RecordAny, method: HttpMethod) => {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = () => {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    try {
+                        resolve(JSON.parse(xhr.response));
+                    } catch (e) {
+                        resolve(xhr.response);
+                    }
+                } else {
+                    reject(xhr.statusText);
+                }
+            }
+        };
+
         if (method === HttpMethod.GET) {
-            const hasQuery = url.indexOf('&') !== -1;
-            const requestUrl = `${url}${hasQuery ? '&' : '?'}&data=${encodeURIComponent(
-                JSON.stringify(data),
-            )}`;
+            const params = new URLSearchParams(data).toString();
+            const requestUrl = `${url}?${params}`;
             xhr.open('get', requestUrl);
             xhr.send();
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    resolve(xhr.response);
-                } else {
-                    reject(xhr.responseText);
-                }
-            };
         } else {
             xhr.open('post', url);
             xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
             xhr.send(JSON.stringify(data));
-            xhr.onreadystatechange = () => {
-                if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    resolve(xhr.response);
-                } else {
-                    reject(xhr.responseText);
-                }
-            };
         }
     });
 };

@@ -7,7 +7,8 @@
     },
     "dependencies": {
         "@timotte-sdk/core": "workspace:*",
-        "@timotte-sdk/utils": "workspace:*"
+        "@timotte-sdk/utils": "workspace:*",
+        "web-vitals": "^3.5.1"
     },
     "devDependencies": {
         "@timotte/eslint-config": "workspace:*",
@@ -15,5 +16,10 @@
     },
     "scripts": {
         "dev": "rimraf dist && rollup --config rollup.config.js -w"
-    }
+    },
+    "type": "module",
+    "main": "./dist/index.js",
+    "module": "./dist/esm/index.js",
+    "types": "./dist/esm/types/index.d.ts",
+    "browser": "./dist/index.umd.js"
 }

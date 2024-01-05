@@ -1,5 +1,5 @@
 {
-    "name": "@timotte-sdk/page-crash",
+    "name": "@timotte-sdk/page-crash-worker",
     "version": "0.0.0",
     "license": "MIT",
     "publishConfig": {
@@ -8,6 +8,7 @@
     "dependencies": {
         "@timotte/eslint-config": "workspace:*",
         "@timotte/ts-config": "workspace:*",
+        "@timotte-sdk/browser": "workspace:*",
         "@timotte-sdk/utils": "workspace:*"
     },
     "scripts": {

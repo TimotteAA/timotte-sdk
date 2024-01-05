@@ -1,10 +1,18 @@
 import { BaseBreadcrumb, Core } from '@timotte-sdk/core';
-import { getTime, ReportType, get, post, sendBeacon, sendByImg } from '@timotte-sdk/utils';
-import type { RecordAny, UnknownFunc } from '@timotte-sdk/utils';
+import {
+    getTime,
+    ReportType,
+    get,
+    post,
+    sendBeacon,
+    sendByImg,
+    SDK_SESSION_ID,
+} from '@timotte-sdk/utils';
+import type { BasePluginType, RecordAny, UnknownFunc } from '@timotte-sdk/utils';
 import { v4 as uuidv4 } from 'uuid';
+import { PageCrashMessage } from './types';
 
 import { ReportDeployment } from './constants';
-import * as pluginMaps from './plugins';
 import { BrowserClientOptions } from './types';
 import { TaskQueue } from './utils';
 import { nextTick } from './utils/nextTick';
@@ -25,10 +33,11 @@ export class BrowserClient extends Core<BrowserClientOptions> {
         this.reportType = options.reportType ?? ReportType.Beacon;
         this.reportDeployment = options.reportDeployment ?? ReportDeployment.TICK;
         this.breadcrumb = new BaseBreadcrumb(options);
+        localStorage.setItem(SDK_SESSION_ID, this.sessionId);
     }
 
     isInRightEnv(): boolean {
-        return 'window' in global;
+        return typeof window !== 'undefined';
     }
 
     /**
@@ -43,6 +52,7 @@ export class BrowserClient extends Core<BrowserClientOptions> {
             // sessionId
             sessionId: this.sessionId,
         };
+
         const { id } = (await post(initUrl, data)) as any;
         return id;
     }
@@ -122,11 +132,16 @@ export class BrowserClient extends Core<BrowserClientOptions> {
 
 // 用户行为：pv、uv
 
-const createBrowserClient = (options: BrowserClientOptions) => {
+export const createBrowserClient = (
+    options: BrowserClientOptions,
+    plugins?: BasePluginType<any>[],
+) => {
     const client = new BrowserClient(options);
-    const plugins = Array.from(Object.values(pluginMaps)).map((Plugin) => new Plugin());
-    client.use(plugins);
+    if (Array.isArray(plugins)) {
+        client.use(plugins);
+    }
     return client;
 };
-export default createBrowserClient;
+
 export * from './plugins';
+export type { PageCrashMessage };

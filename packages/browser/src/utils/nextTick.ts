@@ -8,6 +8,7 @@ let pending = false;
 // 清空回调
 const flushCallbacks = () => {
     pending = false;
+    console.log(callbacks)
     const callbacksCopy = [...callbacks];
     // 清空回调队列
     callbacks.length = 0;

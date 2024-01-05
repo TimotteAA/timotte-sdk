@@ -29,6 +29,9 @@ export default [
             sourcemap: true,
             format: 'umd',
             name: `TIMOTTE_${pkg.name.split('/')[1].toLocaleUpperCase()}`,
+            global: {
+                "web-vitals": "web-vitals"
+            }
         },
     },
 ].map((entry) => ({

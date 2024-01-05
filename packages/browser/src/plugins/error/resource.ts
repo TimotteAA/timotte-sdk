@@ -42,7 +42,7 @@ type JSCodeError = {
     };
 };
 
-export class MonitorResourceErrorPlugin implements BasePluginType {
+class MonitorResourceErrorPlugin implements BasePluginType {
     name = 'monitorResourceErrorPlugin';
     monitor(notify: (data: ResoureceEventData) => void) {
         window.addEventListener('error', (e) => {
@@ -118,3 +118,5 @@ export class MonitorResourceErrorPlugin implements BasePluginType {
         };
     }
 }
+
+export const monitorResourceErrorPlugin = () => new MonitorResourceErrorPlugin();

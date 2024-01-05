@@ -13,7 +13,7 @@ export interface BasePluginType<CollectData = any> {
      */
     monitor: (notify: (data: CollectData) => void) => void;
     // 处理插件数据的转换
-    transform: (data: CollectData) => ReportData<any>;
+    transform?: (data: CollectData) => ReportData<any>;
     // 其余方法
     [key: string]: any;
 }

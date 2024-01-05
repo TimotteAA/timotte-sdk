@@ -45,7 +45,6 @@ export interface ClientOptions {
     maxBreadcrumbs: number;
 }
 
-
 export interface ClientContext {
     /** 使用client的app信息 */
     app: AppInfo;
@@ -56,4 +55,14 @@ export interface ClientContext {
     /** 是否启用debug模式 */
     debug: boolean;
     enabled?: boolean;
+}
+
+export interface ClientInfo {
+    platform: string;
+    appId?: string;
+    sessionId?: string;
+    pageTitle: string;
+    pagePath: string;
+    userAgent: string;
+    language: string;
 }

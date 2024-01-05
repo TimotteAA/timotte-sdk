@@ -1,6 +1,7 @@
-import typescript from "@rollup/plugin-typescript";
-import { nodeResolve } from "@rollup/plugin-node-resolve";
 import path from "path";
+
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import typescript from "@rollup/plugin-typescript";
 // import type { RollupOptions } from "rollup";
 
 const packageDir = path.resolve(__dirname);

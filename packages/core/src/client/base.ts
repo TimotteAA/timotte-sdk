@@ -5,6 +5,7 @@ import {
     isValidURL,
     BasePluginType,
     Subscriber,
+    SDK_APP_ID,
 } from '@timotte-sdk/utils';
 
 export abstract class Core<O extends ClientOptions> {
@@ -27,11 +28,12 @@ export abstract class Core<O extends ClientOptions> {
         this.transOptions();
         // 初始化app
         this.initApp().then((id) => {
+            localStorage.setItem(SDK_APP_ID, id);
             // 处理应用id
             this.appId = id;
-            // 开始执行上报
+            // // 开始执行上报
             this.isReady = true;
-            // 上报之前存起来的数据
+            // // 上报之前存起来的数据
             this.executeUploadData();
         });
     }
