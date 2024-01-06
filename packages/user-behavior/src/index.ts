@@ -22,13 +22,15 @@ export interface UserBehaviorPluginOptions {
 
 export type UserBehaviorNotifyData = Record<string, any>;
 
+export type ReportData = { eventType: string; data: any };
+
 const userBehaviorPlugin = (options: UserBehaviorPluginOptions): BasePluginType => {
     const { targetBehaviors } = options;
     return {
         name: 'userBehaviorPlugin',
         monitor(notify: (data: UserBehaviorNotifyData) => void) {
             // 在window上挂载手动上报方法，配合babel插件自动埋点上报
-            (window as any)['TIMOTTE_SDK_REPORT'] = (eventType: string, data: any) => {
+            (window as any)['TIMOTTE_SDK_REPORT'] = ({ eventType, data }: ReportData) => {
                 notify({
                     eventType,
                     data,
@@ -56,7 +58,6 @@ const userBehaviorPlugin = (options: UserBehaviorPluginOptions): BasePluginType 
             const time = getTime().format('YYYY-MM-DD HH:mm:ss');
             const lastOperate: BreadcrumbData = {
                 type: BrowserBreadcrumbTypes.BEHAVIOR,
-                event: 'collect user information',
                 message: 'collect user infomation',
             };
             const self = this as unknown as BrowserClient;
@@ -75,3 +76,5 @@ const userBehaviorPlugin = (options: UserBehaviorPluginOptions): BasePluginType 
         },
     };
 };
+
+export { userBehaviorPlugin };

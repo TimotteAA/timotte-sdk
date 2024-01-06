@@ -59,7 +59,6 @@ export class PageCrashWorker {
     }
 
     checkCrash() {
-        console.log('check');
         for (const appId of Object.keys(this.apps)) {
             const { lastTime, info } = this.apps[appId];
             const now = Date.now();
@@ -72,7 +71,6 @@ export class PageCrashWorker {
                 const breadcrumbData: BreadcrumbData = {
                     type: BrowserBreadcrumbTypes.CRASH,
                     level: BreadcrumbLevel.FATAL,
-                    event: 'page crash',
                     message: `App of appId: ${appId} crash!`,
                     time: getTime().format('YYYY-MM-DD HH-mm-ss'),
                 };
@@ -86,8 +84,6 @@ export class PageCrashWorker {
                     },
                 });
                 delete this.apps[appId];
-            } else {
-                console.log('still alive!');
             }
         }
         if (Object.keys(this.apps).length === 0 && this.timer) {
@@ -98,5 +94,5 @@ export class PageCrashWorker {
 }
 
 // 把umd丢到项目的public下，可以运行用以简单的测试
-const crashDetectCenter = new PageCrashWorker({ checkDuration: 1000, crashThreshold: 2000 });
+const crashDetectCenter = new PageCrashWorker({ checkDuration: 10000, crashThreshold: 20000 });
 crashDetectCenter.init();

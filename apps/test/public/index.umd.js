@@ -184,13 +184,14 @@
 	    EventTypes["ERROR"] = "error";
 	    EventTypes["PROMISE_ERROR"] = "unhandled_promise_error";
 	    EventTypes["PAGE_CRASH"] = "page_crash";
+	    EventTypes["USER_BEHAVIOR"] = "user_behavior";
 	})(EventTypes || (EventTypes = {}));
 
 	var BrowserBreadcrumbTypes;
 	(function (BrowserBreadcrumbTypes) {
 	    BrowserBreadcrumbTypes["ROUTE"] = "route";
 	    BrowserBreadcrumbTypes["CLICK"] = "ui.click";
-	    BrowserBreadcrumbTypes["CONSOLE"] = "console";
+	    BrowserBreadcrumbTypes["BEHAVIOR"] = "behavior";
 	    BrowserBreadcrumbTypes["XHR"] = "xhr";
 	    BrowserBreadcrumbTypes["FETCH"] = "fetch";
 	    BrowserBreadcrumbTypes["UNHANDLEDREJECTION"] = "unhandledrejection";
@@ -222,6 +223,13 @@
 	    ReportType["GET"] = "get";
 	    ReportType["POST"] = "post";
 	})(ReportType || (ReportType = {}));
+	var StoreType;
+	(function (StoreType) {
+	    StoreType["SESSION"] = "sessionStorage";
+	    StoreType["LOCAL"] = "localStorage";
+	    StoreType["COOKIE"] = "cookie";
+	    StoreType["GLOBAL"] = "window";
+	})(StoreType || (StoreType = {}));
 	const xhr = (url, data, method) => {
 	    return new Promise((resolve, reject) => {
 	        const xhr = new XMLHttpRequest();
@@ -287,7 +295,6 @@
 	        };
 	    }
 	    checkCrash() {
-	        console.log('check');
 	        for (const appId of Object.keys(this.apps)) {
 	            const { lastTime, info } = this.apps[appId];
 	            const now = Date.now();
@@ -297,7 +304,6 @@
 	                const breadcrumbData = {
 	                    type: BrowserBreadcrumbTypes.CRASH,
 	                    level: BreadcrumbLevel.FATAL,
-	                    event: 'page crash',
 	                    message: `App of appId: ${appId} crash!`,
 	                    time: getTime().format('YYYY-MM-DD HH-mm-ss'),
 	                };
@@ -312,9 +318,6 @@
 	                });
 	                delete this.apps[appId];
 	            }
-	            else {
-	                console.log('still alive!');
-	            }
 	        }
 	        if (Object.keys(this.apps).length === 0 && this.timer) {
 	            clearInterval(this.timer);
@@ -322,7 +325,7 @@
 	        }
 	    }
 	}
-	const crashDetectCenter = new PageCrashWorker({ checkDuration: 1000, crashThreshold: 2000 });
+	const crashDetectCenter = new PageCrashWorker({ checkDuration: 10000, crashThreshold: 20000 });
 	crashDetectCenter.init();
 
 	exports.PageCrashWorker = PageCrashWorker;

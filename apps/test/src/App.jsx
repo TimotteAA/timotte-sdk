@@ -5,6 +5,9 @@ import {
   promiseErrorPlugin,
   pageCrashPlugin,
 } from "@timotte-sdk/browser";
+import { userBehaviorPlugin } from "@timotte-sdk/user-behavior";
+
+import { sum } from "./helper";
 import { useEffect } from "react";
 
 const client = createBrowserClient(
@@ -27,8 +30,11 @@ const client = createBrowserClient(
     monitorResourceErrorPlugin(),
     promiseErrorPlugin(),
     pageCrashPlugin({
-      heartbeatInterval: 800,
+      heartbeatInterval: 15000,
       crashDetectWorkerUrl: "http://localhost:5173/index.umd.js",
+    }),
+    userBehaviorPlugin({
+      targetBehaviors: [{ name: "test", position: "localStorage" }],
     }),
   ]
 );
@@ -37,7 +43,12 @@ function App() {
   const onClick = () => {
     // use infinite loop to block the main thread
     // while (true) {}
+    console.log(sum(3, 5));
   };
+
+  useEffect(() => {
+    console.log("sum ", sum(2, 5));
+  }, []);
 
   return (
     <div>

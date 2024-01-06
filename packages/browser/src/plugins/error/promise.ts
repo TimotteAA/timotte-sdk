@@ -49,7 +49,6 @@ class PromiseErrorPlugin implements BasePluginType {
         // 添加到用户行为队列中
         const self = this as unknown as BrowserClient;
         self.breadcrumb.push({
-            event: id,
             type: BrowserBreadcrumbTypes.UNHANDLEDREJECTION,
             level: BreadcrumbLevel.ERROR,
             message,

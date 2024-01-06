@@ -69,7 +69,6 @@ class MonitorResourceErrorPlugin implements BasePluginType {
             // 添加行为栈
             const self = this as unknown as BrowserClient;
             self.breadcrumb.push({
-                event: id,
                 type: BrowserBreadcrumbTypes.RESOURCE,
                 level: BreadcrumbLevel.ERROR,
                 message: `Unable to load "${resourceData.resourceType}"`,
@@ -100,7 +99,6 @@ class MonitorResourceErrorPlugin implements BasePluginType {
         // 添加行为栈
         const self = this as unknown as BrowserClient;
         self.breadcrumb.push({
-            event: id,
             type: BrowserBreadcrumbTypes.CODE_ERROR,
             level: BreadcrumbLevel.ERROR,
             message,

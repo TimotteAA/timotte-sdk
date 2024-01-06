@@ -1,0 +1,33 @@
+{
+    "name": "@timotte-sdk/auto-report",
+    "version": "0.0.0",
+    "license": "MIT",
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@babel/generator": "^7.23.6",
+        "@babel/parser": "^7.23.6",
+        "@babel/template": "^7.22.15",
+        "@babel/traverse": "^7.23.7",
+        "@babel/types": "^7.23.6",
+        "@timotte-sdk/utils": "workspace:*",
+        "@timotte/eslint-config": "workspace:*",
+        "@timotte/ts-config": "workspace:*",
+        "vite": "^5.0.8"
+    },
+    "scripts": {
+        "dev": "rimraf dist && rollup --config rollup.config.js -w"
+    },
+    "module": "./dist/esm/index.js",
+    "main": "./dist/esm/index.js",
+    "types": "./dist/esm/types/index.d.ts",
+    "browser": "./dist/index.umd.js",
+    "type": "module",
+    "devDependencies": {
+        "@rollup/plugin-json": "^6.1.0",
+        "@types/babel__generator": "^7.6.8",
+        "@types/babel__template": "^7.4.4",
+        "@types/babel__traverse": "^7.20.5"
+    }
+}
